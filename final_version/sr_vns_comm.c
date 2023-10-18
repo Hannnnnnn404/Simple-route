@@ -487,6 +487,8 @@ int sr_read_from_server_expect(struct sr_instance* sr /* borrowed */, int expect
                 fprintf(stderr,"Routing table not consistent with hardware\n");
                 return -1;
             }
+            /* Initialization for control subsystem. */
+            pwospf_init(sr);
             printf(" <-- Ready to process packets --> \n");
             break;
 
@@ -580,7 +582,6 @@ int sr_send_packet(struct sr_instance* sr /* borrowed */,
                          unsigned int len,
                          const char* iface /* borrowed */)
 {
-   
     c_packet_header *sr_pkt;
     unsigned int total_len =  len + (sizeof(c_packet_header));
 
@@ -605,6 +606,7 @@ int sr_send_packet(struct sr_instance* sr /* borrowed */,
     strncpy(sr_pkt->mInterfaceName,iface,16);
     memcpy(((uint8_t*)sr_pkt) + sizeof(c_packet_header),
             buf,len);
+
     /* -- log packet -- */
     sr_log_packet(sr,buf,len);
 
