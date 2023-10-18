@@ -54,11 +54,6 @@
 #ifndef __BIG_ENDIAN
 #define __BIG_ENDIAN 2
 #endif
-#ifdef _CYGWIN_
-#ifndef __BYTE_ORDER
-#define __BYTE_ORDER __LITTLE_ENDIAN
-#endif
-#endif
 #ifdef _LINUX_
 #ifndef __BYTE_ORDER
 #define __BYTE_ORDER __LITTLE_ENDIAN
@@ -78,7 +73,7 @@
 /*
  * Structure of an internet header, naked of options.
  */
-struct ip /*ip头*/
+struct ip
   {
 #if __BYTE_ORDER == __LITTLE_ENDIAN
     unsigned int ip_hl:4;		/* header length */
@@ -107,7 +102,7 @@ struct ip /*ip头*/
  *  Ethernet packet header prototype.  Too many O/S's define this differently.
  *  Easy enough to solve that and define it here.
  */
-struct sr_ethernet_hdr/**/
+struct sr_ethernet_hdr
 {
 #ifndef ETHER_ADDR_LEN
 #define ETHER_ADDR_LEN 6
@@ -121,20 +116,8 @@ struct sr_ethernet_hdr/**/
 #define ARPHDR_ETHER    1
 #endif
 
-#ifndef PROTO_ADDR_LEN
-#define PROTO_ADDR_LEN  4
-#endif
-
 #ifndef IPPROTO_ICMP
 #define IPPROTO_ICMP            0x0001  /* ICMP protocol */
-#endif
-
-#ifndef ICMP_REQUEST
-#define ICMP_REQUEST            0x0008
-#endif
-
-#ifndef ICMP_REPLY
-#define ICMP_REPLY              0x0000
 #endif
 
 #ifndef ETHERTYPE_IP
@@ -161,11 +144,5 @@ struct sr_arphdr
     uint32_t        ar_tip;             /* target IP address            */
 } __attribute__ ((packed)) ;
 
-struct sr_icmp
-{
-    uint8_t icmp_type;             /* format of ICMP message */
-    uint8_t icmp_code;             /* Further qualifies the ICMP message */
-    uint16_t icmp_checksum;        /* ICMP Header Checksum */
-} __attribute__ ((packed)) ;
 
 #endif /* -- SR_PROTOCOL_H -- */

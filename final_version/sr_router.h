@@ -3,8 +3,7 @@
  * Date: ?
  * Authors: Guido Apenzeller, Martin Casado, Virkam V.
  * Contact: casado@stanford.edu
- *  
- * #1693354266
+ *
  *---------------------------------------------------------------------------*/
 
 #ifndef SR_ROUTER_H
@@ -33,12 +32,11 @@
 #define INIT_TTL 255
 #define PACKET_DUMP_SIZE 1024
 
-#define SWAP_UINT16(x) (((x) >> 8) |((x) << 8))
-#define SWAP_UINT32(x) (((x) >> 24) | (((x) & 0x00FF0000) >> 8) | (((x) & 0x0000FF00) << 8) | ((x) << 24))
-
 /* forward declare */
 struct sr_if;
 struct sr_rt;
+
+struct pwospf_subsys;
 
 /* ----------------------------------------------------------------------------
  * struct sr_instance
@@ -61,9 +59,11 @@ struct sr_instance
     struct sockaddr_in sr_addr; /* address to server */
     struct sr_if* if_list; /* list of interfaces */
     struct sr_rt* routing_table; /* routing table */
-    struct sr_buffer* sr_buffer;
-    struct arp_cache* arp_cache;
     FILE* logfile;
+    volatile uint8_t  hw_init; /* bool : hardware has been initialized */
+
+    /* -- pwospf subsystem -- */
+    struct pwospf_subsys* ospf_subsys;
 };
 
 /* -- sr_main.c -- */

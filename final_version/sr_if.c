@@ -74,7 +74,6 @@ void sr_add_interface(struct sr_instance* sr, const char* name)
     if(sr->if_list == 0)
     {
         sr->if_list = (struct sr_if*)malloc(sizeof(struct sr_if));
-        assert(sr->if_list);
         sr->if_list->next = 0;
         strncpy(sr->if_list->name,name,SR_IFACE_NAMELEN);
         return;
@@ -86,7 +85,6 @@ void sr_add_interface(struct sr_instance* sr, const char* name)
     {if_walker = if_walker->next; }
 
     if_walker->next = (struct sr_if*)malloc(sizeof(struct sr_if));
-    assert(if_walker->next);
     if_walker = if_walker->next;
     strncpy(if_walker->name,name,SR_IFACE_NAMELEN);
     if_walker->next = 0;
@@ -214,10 +212,10 @@ void sr_print_if(struct sr_if* iface)
     ip_addr.s_addr = iface->ip;
     mask_addr.s_addr = iface->mask;
 
-    Debug("%s\n",iface->name);
+    Debug("Interface: %s\n",iface->name);
     Debug("  hardware address ");
     DebugMAC(iface->addr);
     Debug("\n");
-    Debug("  ip address %s\n",inet_ntoa(ip_addr));
     Debug("  mask %s\n",inet_ntoa(mask_addr));
+    Debug("  ip address %s\n",inet_ntoa(ip_addr));
 } /* -- sr_print_if -- */

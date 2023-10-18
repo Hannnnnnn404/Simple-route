@@ -37,11 +37,11 @@ struct sr_instance;
 
 struct sr_if
 {
-    char name[SR_IFACE_NAMELEN]; // interface name, e.g., eth0, eth1, ...
-    unsigned char addr[6]; // Ethernet address of the interface
-    uint32_t ip; // IP address of the interface
-    uint32_t speed; // not used yet
-    volatile uint32_t mask; // mask
+    char name[SR_IFACE_NAMELEN];
+    unsigned char addr[6];
+    uint32_t ip;
+    uint32_t speed;
+    volatile uint32_t mask;
     struct sr_if* next;
 };
 

@@ -1,6 +1,6 @@
 /*-----------------------------------------------------------------------------
  * File: sr_main.c
- * Date: Fall 2009
+ * Date: Fall 2010
  * Authors: Guido Apanzeller, Vikram Vijayaraghaven, Martin Casado
  * Contact: dgu@cs.stanford.edu
  *
@@ -12,7 +12,6 @@
  * Driver file for sr
  *
  *---------------------------------------------------------------------------*/
-/* tag: 1472682790 */
 
 #ifdef _SOLARIS_
 #define __EXTENSIONS__
@@ -39,7 +38,7 @@ extern char* optarg;
 /*-----------------------------------------------------------------------------
  *---------------------------------------------------------------------------*/
 
-#define VERSION_INFO "VNS sr stub code revised 2010-01-21 (rev 0.23)"
+#define VERSION_INFO "VNS pwospf stub code revised 2010-11-03 (rev 0.23)"
 #define DEFAULT_AUTH_KEY_FILE "auth_key"
 #define DEFAULT_PORT 3250
 #define DEFAULT_HOST "vrhost"
@@ -70,9 +69,9 @@ int main(int argc, char **argv)
     char *logfile = 0;
     struct sr_instance sr;
 
-    printf("Using %s\n", VERSION_INFO);
+     printf("Using %s\n", VERSION_INFO);
 
-    while ((c = getopt(argc, argv, "ha:s:v:p:u:t:r:l:T:")) != EOF)
+     while ((c = getopt(argc, argv, "ha:s:v:p:u:t:r:l:T:")) != EOF)
     {
         switch (c)
         {
@@ -150,8 +149,7 @@ int main(int argc, char **argv)
     }
 
     /* connect to server and negotiate session */
-    if(sr_connect_to_server(&sr,port,server) == -1)
-    {
+    if(sr_connect_to_server(&sr,port,server) == -1) {
         return 1;
     }
 
@@ -229,9 +227,7 @@ static void sr_destroy_instance(struct sr_instance* sr)
         sr_dump_close(sr->logfile);
     }
 
-    /*
     fprintf(stderr,"sr_destroy_instance leaking memory\n");
-    */
 } /* -- sr_destroy_instance -- */
 
 /*-----------------------------------------------------------------------------
@@ -253,6 +249,7 @@ static void sr_init_instance(struct sr_instance* sr)
     sr->if_list = 0;
     sr->routing_table = 0;
     sr->logfile = 0;
+    sr->hw_init = 0;
 } /* -- sr_init_instance -- */
 
 /*-----------------------------------------------------------------------------
@@ -279,15 +276,9 @@ int sr_verify_routing_table(struct sr_instance* sr)
     /* -- REQUIRES --*/
     assert(sr);
 
-    if(sr->if_list == 0)
+    if( (sr->if_list == 0) || (sr->routing_table == 0))
     {
-        return 999; /* doh! */
-    }
-
-    if(sr->routing_table == 0)
-    {
-//        return 999; /* doh! */
-        printf("WARNING: empty routing table !");
+        return 0; /* assume empty */
     }
 
     rt_walker = sr->routing_table;
