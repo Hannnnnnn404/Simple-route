@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "types.h": "c",
+        "arp_cache.h": "c",
+        "sr_ip.h": "c",
+        "sr_router.h": "c",
+        "sr_rt.h": "c",
+        "in.h": "c",
+        "socket.h": "c",
+        "sr_buffer.h": "c",
+        "inttypes.h": "c"
+    }
+}
